@@ -7,8 +7,8 @@ from pydantic import *
 from bson.objectid import ObjectId
 
 @app.get("/")
-def r():
-    return "Hello MongoAPI"
+async def read_root():
+    return {"Hello": "World"}
 
 # Create
 @app.post("/students", status_code = status.HTTP_201_CREATED)
