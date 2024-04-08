@@ -6,8 +6,11 @@ from models import *
 from pydantic import *
 from bson.objectid import ObjectId
 
-@app.get("/")
-async def read_root():
+# @app.get("/")
+# async def read_root():
+#     return {"Hello": "World"}
+@app.head("/")
+def read_root_head():
     return {"Hello": "World"}
 
 # Create
