@@ -1,5 +1,5 @@
 from typing import Optional
-from fastapi import HTTPException, Query, status
+from fastapi import HTTPException, Query, Request, status
 from app import app
 from config import student_collection
 from models import *
@@ -48,13 +48,14 @@ def get_students(country: Optional[str] = Query(None, description="To apply filt
 
 # get student by id
 @app.get("/students/{id}")
-def fetch_student(id: str):
+def fetch_student(id: str=None):
+    # id = request.query_params.get("id")
     fetched_student = student_collection.find_one({'_id':ObjectId(id)})
     if fetched_student:
         fetched_student.pop("_id")
         return fetched_student
-    # return {"data":fetched_student}
-    
+
+   
 #summary: Update student
 #description: API to update the student's properties based on information provided. 
 # Not mandatory that all information would be sent in PATCH, 
@@ -62,6 +63,7 @@ def fetch_student(id: str):
 
 @app.patch("/students/{id}",status_code = status.HTTP_204_NO_CONTENT)
 async def update_student(id: str, student_update: dict):
+    # id = request.query_params.get("id")
     student = student_collection.find_one({"_id": ObjectId(id)})
     if student:
         student_collection.update_one({"_id": ObjectId(id)}, {"$set": student_update})
