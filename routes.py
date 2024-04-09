@@ -9,6 +9,7 @@ from bson.objectid import ObjectId
 # @app.get("/")
 # async def read_root():
 #     return {"Hello": "World"}
+
 @app.head("/")
 def read_root_head():
     return {"Hello": "World"}
@@ -47,8 +48,8 @@ def get_students(country: Optional[str] = Query(None, description="To apply filt
 
 # get student by id
 @app.get("/students/{id}")
-def fetch_student(student_id: str):
-    fetched_student = student_collection.find_one({'_id':ObjectId(student_id)})
+def fetch_student(id: str):
+    fetched_student = student_collection.find_one({'_id':ObjectId(id)})
     if fetched_student:
         fetched_student.pop("_id")
         return fetched_student
